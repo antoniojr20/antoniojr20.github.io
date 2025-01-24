@@ -1,3 +1,9 @@
+// Esperar a que el DOM esté completamente cargado
+document.addEventListener('DOMContentLoaded', function () {
+    // Asignar el evento al botón
+    document.getElementById('btnGenerarPDF').addEventListener('click', generarPDF);
+});
+
 // Función para generar el PDF
 function generarPDF() {
     // Obtener los valores del formulario
@@ -18,6 +24,3 @@ function generarPDF() {
     // Guardar el PDF
     doc.save('formulario.pdf');
 }
-
-// Asociar la función `generarPDF` al botón de generar PDF
-document.getElementById('btnGenerarPDF').addEventListener('click', generarPDF);

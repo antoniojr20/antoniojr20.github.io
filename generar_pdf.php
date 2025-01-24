@@ -2,12 +2,11 @@
 require('fpdf.php');
 
 
-$nombre = $_POST['nombre'];
-$ip = $_POST['ip'];
-$opcion = $_POST['opcion'];
-$modelo = $_POST['modelo'];
- $dispositivo = $_POST['dispositivo'];
-
+$nombre = $_GET['nombre'];
+$ip = $_GET['ip'];
+$opcion = $_GET['opcion'];
+$modelo = $_GET['modelo'];
+$dispositivo = $_GET['dispositivo'];
 
 $nombreArchivo = preg_replace('/[^a-zA-Z0-9_-]/', '_', $nombre); 
 

@@ -173,25 +173,35 @@ async function generarPDF() {
     let opcion = document.getElementById("opcion").value;
     let dispositivo = document.querySelector('input[name="dispositivo"]:checked').value;
 
-    // Obtener la configuración de red
+   
     const networkConfig = getNetworkConfig(opcion);
 
     try {
-        // Cargar imágenes
-        const [logo, portada] = await Promise.all([
+      
+        const [logo, portada, x1,x2,x3,x4,x5,x6,x7,x8,x9] = await Promise.all([
             cargarImagen("digilife.png"), // Logo
-            cargarImagen(getPortadaPorModeloYDispositivo(modelo, dispositivo)) // Cargar portada según el modelo y dispositivo
+            cargarImagen(getPortadaPorModeloYDispositivo(modelo, dispositivo)), // Cargar 
+            cargarImagen("imagenes/xiaomi-tel/x1.webp"),//imagen 1
+            cargarImagen("imagenes/xiaomi-tel/x2.webp"),//imagen 2
+            cargarImagen("imagenes/xiaomi-tel/x3.webp"),//imagen 3
+            cargarImagen("imagenes/xiaomi-tel/x4.webp"),//imagen 4
+            cargarImagen("imagenes/xiaomi-tel/x5.webp"),//imagen 5
+            cargarImagen("imagenes/xiaomi-tel/x6.webp"),//imagen 6
+            cargarImagen("imagenes/xiaomi-tel/x7.webp"),//imagen 7
+            cargarImagen("imagenes/xiaomi-tel/x8.webp"),//imagen 8
+            cargarImagen("imagenes/xiaomi-tel/x9.webp"),//imagen 9
+          
+
         ]);
 
-        // Crear portada según el modelo y dispositivo seleccionado
-        doc.addImage(portada, "PNG", 0, 0, 210, 297); // Portada para el modelo y dispositivo seleccionado
+      
+        doc.addImage(portada, "PNG", 0, 0, 210, 297); 
     
         function agregarLogo(doc) {
-            // Añadir logo en la misma posición (ajusta las coordenadas según necesites)
-            doc.addImage(logo, "PNG", 150, 10, 50, 20); // Ajusta tamaño y posición según lo necesites
+            doc.addImage(logo, "PNG", 150, 10, 50, 20); 
         }
 
-        // Si el modelo tiene más de un dispositivo, agrega más páginas si es necesario
+
         if (modelo === "xiaomi" && dispositivo === "telefono") {
             doc.addPage();
             agregarLogo(doc);
@@ -200,14 +210,43 @@ async function generarPDF() {
             doc.text("Configuración Avanzada para Xiaomi - Teléfono", 20, 20);
             doc.setFontSize(14);
             doc.text("Detalles sobre configuraciones avanzadas para el teléfono Xiaomi.", 20, 40);
-         
+            
+            // pagina 2
+            doc.addPage();
+            agregarLogo(doc);
+
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(22);
+            doc.text("Datos del Cliente", 20, 20);
+            doc.addImage(x1, "WEBP", 0, 0, 50, 97); 
+            doc.addImage(x2, "WEBP", 50 ,25, 100, 100); 
+
+            doc.addPage();
+            doc.addImage(x3, "WEBP", 0, 0, 50, 97); 
+            doc.addImage(x4, "WEBP", 50 ,25, 100, 100); 
+            // Datos del usuario
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(14);
+            doc.text(`Nombre: ${nombre}`, 20, 40);
+            doc.text(`Dirección IP: ${ip}`, 20, 50);
+            doc.text(`Modelo del Router: ${modelo}`, 20, 60);
+
+
+
+
         } else if (modelo === "xiaomi" && dispositivo === "computadora") {
             doc.addPage();
             agregarLogo(doc);
             doc.setFontSize(16);
             doc.text("Configuración Avanzada para Xiaomi - computadora", 20, 20);
-            doc.setFontSize(14);
-            doc.text("Detalles sobre configuraciones avanzadas para el computadora Xiaomi.", 20, 40);
+       
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(22);
+            doc.text("Datos del Cliente", 20, 20);
+    
+          
+    
+       
         }
 
         if (modelo === "zc" && dispositivo === "computadora") {
@@ -221,15 +260,14 @@ async function generarPDF() {
 
         // Guardar el archivo con el nombre del cliente y el modelo
         let nombreArchivo = nombre.replace(/[^a-zA-Z0-9_ -]/g, "") || "Cliente";
-        doc.save(`${nombreArchivo}.pdf`); // Guardar el PDF con el modelo y dispositivo como parte del nombre del archivo
+        doc.save(`${nombreArchivo}.pdf`); 
     } catch (error) {
         alert("Error al generar el PDF: " + error);
     }
 }
 
-// Función para obtener la portada según el modelo y dispositivo seleccionado
+
 function getPortadaPorModeloYDispositivo(modelo, dispositivo) {
-    // Define las portadas por modelo y dispositivo
     if (modelo === "xiaomi") {
         if (dispositivo === "telefono") {
             return "imagenes/xiaomi.png";
